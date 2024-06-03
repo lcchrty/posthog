@@ -1,23 +1,14 @@
-import { LemonButton, LemonInput, LemonSelect, LemonSelectOptions, Link } from '@posthog/lemon-ui'
+import { Link } from '@posthog/lemon-ui'
 import { useActions, useValues } from 'kea'
-import { combineUrl } from 'kea-router'
-import { ObjectTags } from 'lib/components/ObjectTags/ObjectTags'
-import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
-import { TZLabel } from 'lib/components/TZLabel'
-import { EVENT_DEFINITIONS_PER_PAGE } from 'lib/constants'
-import { IconPlayCircle } from 'lib/lemon-ui/icons'
+// import { EVENT_DEFINITIONS_PER_PAGE } from 'lib/constants'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
-import { More } from 'lib/lemon-ui/LemonButton/More'
-import { LemonTable, LemonTableColumn, LemonTableColumns } from 'lib/lemon-ui/LemonTable'
-import { DefinitionHeader, getEventDefinitionIcon } from 'scenes/data-management/events/DefinitionHeader'
-import { EventDefinitionProperties } from 'scenes/data-management/events/EventDefinitionProperties'
-import { eventDefinitionsTableLogic } from 'scenes/data-management/events/eventDefinitionsTableLogic'
-import { organizationLogic } from 'scenes/organizationLogic'
+// import { EventDefinitionProperties } from 'scenes/data-management/events/EventDefinitionProperties'
+import { eventsSceneLogic } from 'scenes/events/eventsSceneLogic'
 import { urls } from 'scenes/urls'
 
-import { EventDefinition, EventDefinitionType } from '~/types'
+import { Query } from '~/queries/Query/Query'
 
-const eventTypeOptions: LemonSelectOptions<EventDefinitionType> = [
+/* const eventTypeOptions: LemonSelectOptions<EventDefinitionType> = [
     { value: EventDefinitionType.Event, label: 'All events', 'data-attr': 'event-type-option-event' },
     {
         value: EventDefinitionType.EventCustom,
@@ -30,12 +21,15 @@ const eventTypeOptions: LemonSelectOptions<EventDefinitionType> = [
         'data-attr': 'event-type-option-event-posthog',
     },
 ]
+*/
 
 export function EventDefinitionsTable(): JSX.Element {
-    const { eventDefinitions, eventDefinitionsLoading, filters } = useValues(eventDefinitionsTableLogic)
-    const { loadEventDefinitions, setFilters } = useActions(eventDefinitionsTableLogic)
-    const { hasTagging } = useValues(organizationLogic)
-
+    // const { eventDefinitions, eventDefinitionsLoading, filters } = useValues(eventDefinitionsTableLogic)
+    // const { loadEventDefinitions, setFilters } = useActions(eventDefinitionsTableLogic)
+    // const { hasTagging } = useValues(organizationLogic)
+    const { query } = useValues(eventsSceneLogic)
+    const { setQuery } = useActions(eventsSceneLogic)
+    /*
     const columns: LemonTableColumns<EventDefinition> = [
         {
             key: 'icon',
@@ -115,7 +109,7 @@ export function EventDefinitionsTable(): JSX.Element {
             },
         },
     ]
-
+*/
     return (
         <div data-attr="manage-events-table">
             <LemonBanner className="mb-4" type="info">
@@ -145,6 +139,25 @@ export function EventDefinitionsTable(): JSX.Element {
                 </Link>
             </LemonBanner>
 
+            {/* 
+						this section would need to be replaced with a query object
+						
+						modeled on person component filter?
+						 - name includes? excludes?
+						 - date range
+
+						what information does the query object need to render properly?
+						
+						*/}
+
+            <Query query={query} setQuery={setQuery} />
+            {/*********************************
+             *
+             *
+             *
+             *
+             * *********************************
+             
             <div className="flex justify-between items-center gap-2 mb-4">
                 <LemonInput
                     type="search"
@@ -166,6 +179,7 @@ export function EventDefinitionsTable(): JSX.Element {
                     />
                 </div>
             </div>
+         
             <LemonTable
                 columns={columns}
                 data-attr="events-definition-table"
@@ -210,6 +224,8 @@ export function EventDefinitionsTable(): JSX.Element {
                 emptyState="No event definitions"
                 nouns={['event', 'events']}
             />
+							*/}
+            {/* receiving information from above input or select options */}
         </div>
     )
 }
